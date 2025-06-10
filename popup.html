@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SumVid - AI Video Summarizer</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="logo-container">
+      <div class="logo">
+        <img src="icons/icon48.png" alt="SumVid Logo" width="32" height="32">
+      </div>
+      <h1>SumVid LEARN V2.2.0</h1>
+      <div class="theme-control">
+        <span class="theme-label">Dark mode</span>
+        <label class="theme-switch">
+          <input type="checkbox" id="theme-toggle">
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+    
+    <div class="content">
+      <div id="loading" class="state">
+        <div class="spinner"></div>
+        <p>Checking for YouTube video...</p>
+      </div>
+      
+      <div id="no-video" class="state hidden">
+        <div class="icon-container">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="info-icon">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        <p>No YouTube video detected.</p>
+        <p class="hint">Open a YouTube video and try again.</p>
+      </div>
+      
+      <div id="video-info" class="state hidden">
+        <h2 id="video-title">Title will appear here</h2>
+        <p id="channel-name" class="channel">Channel name</p>
+        
+        <div id="summary-container" class="summary-container hidden">
+          <div class="summary-header" id="summary-header">
+            <h3>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              Your SumVid Summary
+              <div class="status-indicator">
+                <div class="loading-spinner"></div>
+                <span class="completion-badge">Done</span>
+              </div>
+            </h3>
+            <button class="collapse-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+          </div>
+          <div id="summary-content" class="summary-content">Generating summary...</div>
+        </div>
+
+        <div id="questions-container" class="questions-container hidden">
+          <div class="questions-header" id="questions-header">
+            <h3>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              Ask Questions
+            </h3>
+            <button class="collapse-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+          </div>
+          <div id="questions-content" class="questions-content collapsed">
+            <div class="chat-container">
+              <div id="chat-messages" class="chat-messages"></div>
+              <div class="chat-input-container">
+                <input type="text" id="question-input" class="question-input" placeholder="Ask a question about the video...">
+                <button id="send-question" class="send-question">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="quiz-container" class="quiz-container">
+          <div class="quiz-header" id="quiz-header">
+            <h3>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              Test Your Knowledge
+              <div class="status-indicator">
+                <div class="loading-spinner"></div>
+                <span class="completion-badge">Done</span>
+              </div>
+            </h3>
+            <button class="collapse-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+          </div>
+          <div id="quiz-content" class="quiz-content collapsed">Generating questions...</div>
+          <button id="generate-quiz-button" class="quiz-button">
+            <span>Generate New Questions</span>
+          </button>
+        </div>
+
+        <div class="copy-options">
+          <div class="copy-checkboxes">
+            <label class="copy-option">
+              <input type="checkbox" id="copy-summary" value="summary">
+              <span>Include Summary</span>
+            </label>
+            <label class="copy-option">
+              <input type="checkbox" id="copy-chat" value="chat">
+              <span>Include AI Chat</span>
+            </label>
+            <label class="copy-option">
+              <input type="checkbox" id="copy-quiz" value="quiz">
+              <span>Include Quiz</span>
+            </label>
+          </div>
+          <button id="copy-report-button" class="copy-report-button">
+            <span>Copy your SumVid Report to Clipboard</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
