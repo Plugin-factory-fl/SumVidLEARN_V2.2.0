@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SumVid - AI Video Summarizer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Get easy-to-understand summaries of YouTube videos, take quizzes, and ask questions - all written at a 5th-grade reading level!",
   "author": "Your Name",
   "homepage_url": "https://your-website.com",
